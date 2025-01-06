@@ -1,0 +1,12 @@
+# C# (ASP.NET Core)
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.log
+*.vs
+packages/
+appsettings.Development.json
+
+
