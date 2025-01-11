@@ -1,6 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutModule } from './layout/layout.module';
+import { CopmonentsModule } from './copmonents/copmonents.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -9,10 +11,11 @@ import { LayoutModule } from './layout/layout.module';
   ],
   imports: [
     CommonModule,
-    LayoutModule
+    LayoutModule,
+    CopmonentsModule
   ],
   exports:[
     LayoutModule
-  ],schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  ]
 })
 export class AdminModule { }
