@@ -17,4 +17,4 @@ import { RouterModule } from '@angular/router';
     ProductsModule
   ]
 })
-export class CopmonentsModule { }
+export class ComponentsModule { }

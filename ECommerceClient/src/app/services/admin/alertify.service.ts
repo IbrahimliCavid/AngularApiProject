@@ -37,7 +37,7 @@ export enum Position{
 }
 
 export class AlertifyOptions{
-  messageType : MessageType = MessageType.Message;
+  messageType : MessageType = MessageType.Error;
   position: Position = Position.TopLeft;
   delay : Number = 3;
   dismissOther : boolean = false;
