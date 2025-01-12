@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -9,6 +8,4 @@ declare var $: any;
 export class AppComponent {
   title = 'ECommerceClient';
 }
-$(document).ready(()=>{
-  alert("hello world")
-})
+
