@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CopmonentsModule } from './copmonents/copmonents.module';
+import { ComponentsModule } from './components/components.module';
 import { RouterModule } from '@angular/router';
 
 
@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   declarations: [],
   imports: [
     CommonModule,
-    CopmonentsModule,
+    ComponentsModule,
   ]
 })
 export class UiModule { }
