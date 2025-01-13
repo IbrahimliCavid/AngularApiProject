@@ -9,15 +9,9 @@ import { CustomToastrService, Position, MessageType } from './services/ui/custom
 export class AppComponent implements OnInit {
   title = 'ECommerceClient';
   
-  constructor(private toastr : CustomToastrService) {
+  constructor() {
   }
   ngOnInit(): void {
-    this.toastr.message("Cavid", "Ibrahimli", {
-      messageType : MessageType.Info,
-      position: Position.BottomLeft
-    })  
-    this.toastr.message("Cavid", "Ibrahimli",{}) 
-
   }
 }
 
