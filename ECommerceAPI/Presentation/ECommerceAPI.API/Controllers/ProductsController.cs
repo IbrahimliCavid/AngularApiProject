@@ -1,7 +1,10 @@
 ﻿using Application.Repositories;
+using Application.ViewModules.Products;
 using Domain.Entites;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Persistence.Repositories;
+using System.Net;
 
 namespace ECommerceAPI.API.Controllers
 {
@@ -20,21 +23,50 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public  IActionResult Get()
         {
-            
-            var products =  _readRepository.GetAll();
-            return Ok(products);
+            return Ok(_readRepository.GetAll(false));
         }
         [HttpGet("{id}")]
-
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            //Tracking test
-            Product product = await _readRepository.GetByIdAsync(id, false);
-            product.Name = "Agac";
+            return Ok(await _readRepository.GetByIdAsync(id, false));
+        }
+
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Post(VM_Create_Product model)
+        {
+            await _writeRepository.AddAsync(new Product
+            {
+                Name = model.Name,
+                Stock = model.Stock,
+                Price = model.Price
+            });
+            await _writeRepository.SaveAsync();
+            return StatusCode((int)HttpStatusCode.Created);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(VM_Update_Product model)
+        {
+            var product = await _readRepository.GetByIdAsync(model.Id);
+            product.Stock = model.Stock;
+            product.Name = model.Name;
+            product.Price = model.Price;
             await _writeRepository.SaveAsync();
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _writeRepository.DeleteAsync(id);
+            await _writeRepository.SaveAsync();
+            return Ok();
+        }
+
     }
 }

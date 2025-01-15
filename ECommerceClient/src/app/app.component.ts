@@ -16,6 +16,3 @@ export class AppComponent implements OnInit {
   }
 }
 
-$.get("https://localhost:7156/api/products", data => {
-  console.log(data)
-})
