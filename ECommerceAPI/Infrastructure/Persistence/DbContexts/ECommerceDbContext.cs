@@ -27,6 +27,7 @@ namespace Persistence.DbContexts
                 {
                     EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
                     EntityState.Modified => data.Entity.LastUpdateDate = DateTime.UtcNow,
+                    _ => DateTime.UtcNow
                 };
             }
             return base.SaveChangesAsync(cancellationToken);
