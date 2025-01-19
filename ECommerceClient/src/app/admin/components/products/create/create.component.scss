@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-item{
+    margin: 6px 6px  0 6px;
+  }
+
+.button-product{
+    background-color: blue;
+    margin-left: 6px;
+}
