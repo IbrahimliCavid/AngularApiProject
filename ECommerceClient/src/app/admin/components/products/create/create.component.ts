@@ -10,27 +10,35 @@ import { ProductService } from 'src/app/services/common/models/product.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent extends BaseComponent{
-constructor(
-  spinner: NgxSpinnerService, 
-  private productService : ProductService,
-private alertify : AlertifyService){
-  super(spinner)
-}
+export class CreateComponent extends BaseComponent {
+  constructor(
+    spinner: NgxSpinnerService,
+    private productService: ProductService,
+    private alertify: AlertifyService) {
+    super(spinner)
+  }
 
-create(name : HTMLInputElement, stock: HTMLInputElement, price:HTMLInputElement){
-  this.showSpinner(SpinnerType.BallNewtonCradle)
-const product : CreateProduct = new CreateProduct();
-product.name = name.value;
-product.stock = parseInt(stock.value);
-product.price = parseFloat(price.value) 
-this.productService.create(product, ()=>{
-  this.hideSpinner(SpinnerType.BallNewtonCradle)
-  this.alertify.message("Product success added", {
-    messageType : MessageType.Success,
-    position : Position.TopLeft,
-    dismissOther : true
-  })
-})
-}
+  create(name: HTMLInputElement, stock: HTMLInputElement, price: HTMLInputElement) {
+    this.showSpinner(SpinnerType.BallNewtonCradle)
+
+    const product: CreateProduct = new CreateProduct();
+    product.name = name.value;
+    product.stock = parseInt(stock.value);
+    product.price = parseFloat(price.value);
+
+    this.productService.create(product, () => {
+      this.hideSpinner(SpinnerType.BallNewtonCradle)
+      this.alertify.message("Product success added", {
+        messageType: MessageType.Success,
+        position: Position.TopLeft,
+        dismissOther: true
+      })
+    // }, (errorMessage)=>{
+    //   this.alertify.message(errorMessage, {
+    //     messageType: MessageType.Error,
+    //     position : Position.TopRight,
+    //     dismissOther : true
+    //   })
+    })
+  }
 }
