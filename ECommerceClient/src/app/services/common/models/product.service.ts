@@ -14,15 +14,20 @@ export class ProductService {
       controller: "products"
     }, product).subscribe(result=>{
       successCallBack();
-    // },(errorResponse : HttpErrorResponse) =>{
-    //    const _error : Array<{key : string, value : Array<string>}> = errorResponse.error;
-    //    let message = "";
-    //    _error.forEach((values, index) => {
-    //     values.value.forEach((_value, _index) => {
-    //       message+= `${_value}<br>`
-    //     }) 
-    //    });
-    //    errorCallback(message);
+    },(errorResponse : HttpErrorResponse) =>{
+       const _error : Array<{key : string, value : Array<string>}> = errorResponse.error;
+       if(Array  .isArray(_error))
+     {
+      let message = "";
+      _error.forEach((v, index) => {
+       v.value.forEach((_v, _index) => {
+         message+= `${_v}<br>`
+       }) 
+      });
+      errorCallback(message);
+
+     }
+      
     });
 
   }
