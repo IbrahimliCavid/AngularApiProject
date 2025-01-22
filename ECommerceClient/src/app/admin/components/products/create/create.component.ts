@@ -26,6 +26,30 @@ export class CreateComponent extends BaseComponent {
     product.stock = parseInt(stock.value);
     product.price = parseFloat(price.value);
 
+    // if(!name.value){
+    //   this.alertify.message("Please enter name", {
+    //     messageType: MessageType.Error,
+    //     position: Position.TopLeft,
+    //     dismissOther: true
+    //   })
+    // }
+    
+    // if(!stock.value){
+    //   this.alertify.message("Please enter stock", {
+    //     messageType: MessageType.Error,
+    //     position: Position.TopLeft,
+    //     dismissOther: true
+    //   })
+    // }
+    
+    // if(!stock.value){
+    //   this.alertify.message("Please enter price", {
+    //     messageType: MessageType.Error,
+    //     position: Position.TopLeft,
+    //     dismissOther: true
+    //   })
+    // }
+
     this.productService.create(product, () => {
       this.hideSpinner(SpinnerType.BallNewtonCradle)
       this.alertify.message("Product success added", {
@@ -33,12 +57,12 @@ export class CreateComponent extends BaseComponent {
         position: Position.TopLeft,
         dismissOther: true
       })
-    // }, (errorMessage)=>{
-    //   this.alertify.message(errorMessage, {
-    //     messageType: MessageType.Error,
-    //     position : Position.TopRight,
-    //     dismissOther : true
-    //   })
+    }, (errorMessage)=>{
+      this.alertify.message(errorMessage, {
+        messageType: MessageType.Error,
+        position : Position.TopRight,
+        dismissOther : true
+      })
     })
   }
 }
