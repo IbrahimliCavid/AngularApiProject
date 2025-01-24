@@ -16,26 +16,23 @@ export class ProductService {
     }, product).subscribe(result=>{
       successCallBack();
     },(errorResponse : HttpErrorResponse) =>{
-       const _error : Array<{key : string, value : Array<string>}> = errorResponse.error;
-       if(Array  .isArray(_error))
-     {
+       const _error : Array<{key: string, value : Array<string>}> = errorResponse.error;
       let message = "";
-      _error.forEach((v, index) => {
-       v.value.forEach((_v, _index) => {
+      _error.forEach((v) => {
+       v.value.forEach((_v) => {
          message+= `${_v}<br>`
        }) 
       });
       errorCallback(message);
-
-     }
       
     });
 
   }
 
-   async read(successCallBack? : ()=>void, errorCallBack? : (errorMessage : string)=> void) : Promise<ListProduct[]>{
-   const promiseData : Promise<ListProduct[]> = this.clientService.get<ListProduct[]>({
-    controller : "products"
+   async read(page: Number = 0, size : Number = 5,successCallBack? : ()=>void, errorCallBack? : (errorMessage : string)=> void) : Promise<{totalCount : Number, products :ListProduct[]}>{
+   const promiseData : Promise<{totalCount : Number, products :ListProduct[]}> = this.clientService.get<{totalCount : Number, products :ListProduct[]}>({
+    controller : "products",
+    queryString : `page=${page}&size${size}`
     }).toPromise() ;
 
     promiseData.then(d=>successCallBack()) //Success

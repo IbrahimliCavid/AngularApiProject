@@ -18,7 +18,7 @@ export class HttpClientService {
     if(requestParametrs.fullEndPoint)
       url = requestParametrs.fullEndPoint;
     else
-    url = `${this.url(requestParametrs)}${id ? `/${id}` : ""}`;
+    url = `${this.url(requestParametrs)}${id ? `/${id}` : ""}${requestParametrs.queryString ?`?${ requestParametrs.queryString}` : ""}`;
   return this.httpClient.get<T>(url, {headers: requestParametrs.headers});
 }
 post<T>(requestParametrs: Partial<RequestParametrs>, body : Partial<T>) : Observable<T>{
@@ -26,7 +26,7 @@ post<T>(requestParametrs: Partial<RequestParametrs>, body : Partial<T>) : Observ
   if(requestParametrs.fullEndPoint)
     url = requestParametrs.fullEndPoint;
   else
-  url = `${this.url(requestParametrs)}`
+  url = `${this.url(requestParametrs)}${requestParametrs.queryString ?`?${ requestParametrs.queryString}` : ""}`
 
  return this.httpClient.post<T>(url, body, {headers: requestParametrs.headers})
 }
@@ -35,7 +35,7 @@ put<T>(requestParametrs : Partial<RequestParametrs>, body : Partial<T>) : Observ
   if(requestParametrs.fullEndPoint)
     url = requestParametrs.fullEndPoint;
   else
-  url = `${this.url(requestParametrs)}`;
+  url = `${this.url(requestParametrs)}${requestParametrs.queryString ?`?${ requestParametrs.queryString}` : ""}`;
 
  return this.httpClient.put<T>(url, body, {headers : requestParametrs.headers})
 }
@@ -45,7 +45,7 @@ delete<T>(requestParametrs:RequestParametrs, id: string) : Observable<T> {
   if(requestParametrs.fullEndPoint)
     url = requestParametrs.fullEndPoint;
   else
-  url = `${this.url(requestParametrs)}/${id}`;
+  url = `${this.url(requestParametrs)}/${id}${requestParametrs.queryString ?`?${ requestParametrs.queryString}` : ""}`;
 
  return this.httpClient.delete<T>(url, {headers : requestParametrs.headers})
 }
@@ -57,7 +57,7 @@ delete<T>(requestParametrs:RequestParametrs, id: string) : Observable<T> {
 export class RequestParametrs{
   controller?:string;
   action? : string;
-
+  queryString : string;
 
   headers?: HttpHeaders;
   baseUrl?:string;
