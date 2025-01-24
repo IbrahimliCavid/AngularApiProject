@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { CreateProduct } from 'src/app/contracts/create-product';
@@ -10,13 +10,17 @@ import { ProductService } from 'src/app/services/common/models/product.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent extends BaseComponent {
+export class CreateComponent extends BaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     private productService: ProductService,
     private alertify: AlertifyService) {
     super(spinner)
   }
+  ngOnInit(): void {
+  }
+
+  @Output() createdProduct : EventEmitter<CreateProduct> = new EventEmitter();
 
   create(name: HTMLInputElement, stock: HTMLInputElement, price: HTMLInputElement) {
     this.showSpinner(SpinnerType.BallNewtonCradle)
@@ -26,37 +30,14 @@ export class CreateComponent extends BaseComponent {
     product.stock = parseInt(stock.value);
     product.price = parseFloat(price.value);
 
-    // if(!name.value){
-    //   this.alertify.message("Please enter name", {
-    //     messageType: MessageType.Error,
-    //     position: Position.TopLeft,
-    //     dismissOther: true
-    //   })
-    // }
-    
-    // if(!stock.value){
-    //   this.alertify.message("Please enter stock", {
-    //     messageType: MessageType.Error,
-    //     position: Position.TopLeft,
-    //     dismissOther: true
-    //   })
-    // }
-    
-    // if(!stock.value){
-    //   this.alertify.message("Please enter price", {
-    //     messageType: MessageType.Error,
-    //     position: Position.TopLeft,
-    //     dismissOther: true
-    //   })
-    // }
-
     this.productService.create(product, () => {
       this.hideSpinner(SpinnerType.BallNewtonCradle)
       this.alertify.message("Product success added", {
         messageType: MessageType.Success,
         position: Position.TopLeft,
         dismissOther: true
-      })
+      });
+      this.createdProduct.emit(product);
     }, (errorMessage)=>{
       this.alertify.message(errorMessage, {
         messageType: MessageType.Error,
