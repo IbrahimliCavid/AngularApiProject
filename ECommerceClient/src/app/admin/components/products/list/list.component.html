@@ -31,6 +31,19 @@
         <th mat-header-cell *matHeaderCellDef> Updated Date </th>
         <td mat-cell *matCellDef="let element"> {{element.lastUpdateDate}} </td>
       </ng-container>
+
+          <!-- Delete Column -->
+          <ng-container matColumnDef="edit" width="20p">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element"><img src="../../../../../assets/btnEdit.png" width="20px" alt=""></td>
+          </ng-container>
+      <!-- Delete Column -->
+      <ng-container matColumnDef="delete"   width="20p">
+        <th mat-header-cell *matHeaderCellDef > </th>
+        <td [id] = "element.id" mat-cell *matCellDef="let element" appDelete (callBack) = "getProducts()">
+          <!-- <img src="../../../../../assets/btnDelete.png" width="20px" alt="" (click)="delete(element.id, $event)">-->
+          </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

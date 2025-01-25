@@ -57,7 +57,7 @@ delete<T>(requestParametrs:RequestParametrs, id: string) : Observable<T> {
 export class RequestParametrs{
   controller?:string;
   action? : string;
-  queryString : string;
+  queryString? : string;
 
   headers?: HttpHeaders;
   baseUrl?:string;

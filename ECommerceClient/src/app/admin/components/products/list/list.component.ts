@@ -8,6 +8,8 @@ import { ListProduct } from 'src/app/contracts/list-product';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
 import { ProductService } from 'src/app/services/common/models/product.service';
 
+declare var $:any;
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -19,7 +21,7 @@ constructor(spinner : NgxSpinnerService, private productService : ProductService
   super(spinner)
 }
 
-displayedColumns: string[] = ['name', 'price', 'stock', 'createdDate', 'lastUpdateDate'];
+displayedColumns: string[] = ['name', 'price', 'stock', 'createdDate', 'lastUpdateDate', 'edit', 'delete'];
 dataSource : MatTableDataSource<ListProduct> = null;
 @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -40,5 +42,11 @@ async ngOnInit() {
 }
 async pageChanged(){
  await this.getProducts();
+}
+
+delete(id, event ){
+  let img : HTMLImageElement = event.srcElement; 
+console.log()
+$(img.parentElement.parentElement).fadeOut(2000);
 }
 }
