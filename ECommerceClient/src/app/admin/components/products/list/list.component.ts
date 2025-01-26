@@ -44,9 +44,9 @@ async pageChanged(){
  await this.getProducts();
 }
 
-delete(id, event ){
-  let img : HTMLImageElement = event.srcElement; 
-console.log()
-$(img.parentElement.parentElement).fadeOut(2000);
-}
+// delete(id, event ){
+//   let img : HTMLImageElement = event.srcElement; 
+// console.log()
+// $(img.parentElement.parentElement).fadeOut(2000);
+// }
 }
