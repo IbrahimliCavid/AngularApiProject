@@ -26,7 +26,7 @@ namespace ECommerceAPI.API.Controllers
         [HttpGet]
         public  IActionResult Get([FromQuery]Paginaton paginaton)
         {
-            int totalCount = _readRepository.GetAll(false).Count();
+            int totalCount = _readRepository.GetCount();
             var products =  _readRepository.GetAll(false).Select(p => new
             {
                 p.Id,

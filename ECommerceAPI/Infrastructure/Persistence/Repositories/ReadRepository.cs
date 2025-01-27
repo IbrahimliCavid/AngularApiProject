@@ -52,5 +52,9 @@ namespace Persistence.Repositories
                 query = query.AsNoTracking();
             return await query.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
         }
+        public int GetCount()
+        {
+            return _context.Set<T>().Count();
+        }
     }
 }

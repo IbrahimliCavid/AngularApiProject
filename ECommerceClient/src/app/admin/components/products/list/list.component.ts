@@ -44,6 +44,9 @@ async pageChanged(){
  await this.getProducts();
 }
 
+options = {
+  controller : "products",
+}
 // delete(id, event ){
 //   let img : HTMLImageElement = event.srcElement; 
 // console.log()
