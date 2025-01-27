@@ -16,16 +16,15 @@ export class ProductService {
       controller: "products"
     }, product).subscribe(result=>{
       successCallBack();
-    },(errorResponse : HttpErrorResponse) =>{
-       const _error : Array<{key: string, value : Array<string>}> = errorResponse.error;
+    },(errorResponse : HttpErrorResponse)=>{
+      const errorMessages: {key: string, value : Array<String>} = errorResponse.error.errors;
       let message = "";
-      _error.forEach((v) => {
-       v.value.forEach((_v) => {
-         message+= `${_v}<br>`
-       }) 
+      Object.entries(errorMessages).forEach(([key, value]) => {
+        
+       message += `${key} - ${value}<br>`
       });
-      errorCallback(message);
-      
+   errorCallback(message);
+
     });
 
   }
