@@ -16,11 +16,13 @@ namespace ECommerceAPI.API.Controllers
         //Test Repository design pattern
         private readonly IProductWriteRepository _writeRepository;
         private readonly IProductReadRepository _readRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(IProductWriteRepository writeRepository, IProductReadRepository readRepository)
+        public ProductsController(IProductWriteRepository writeRepository, IProductReadRepository readRepository, IWebHostEnvironment webHostEnvironment)
         {
             _writeRepository = writeRepository;
             _readRepository = readRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -83,5 +85,23 @@ namespace ECommerceAPI.API.Controllers
             return Ok();
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Upload()
+        {
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource/product-images");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+           
+                Random r = new Random();
+            foreach (IFormFile file in Request.Form.Files)
+            {
+                string fullPath = Path.Combine(uploadPath, $"{r.Next()}{Path.GetExtension(file.Name)}");
+                using FileStream fileStream  = new(fullPath,FileMode.Create,FileAccess.Write, FileShare.None,1024 * 1024, useAsync : true);
+                await file.CopyToAsync(fileStream);
+                await fileStream.FlushAsync();
+            }
+
+            return Ok();
+        }
     }
 }

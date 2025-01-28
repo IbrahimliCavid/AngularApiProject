@@ -15,17 +15,17 @@ export class CustomToastrService {
   }
 }
 export class ToastrOptions{
-  messageType: MessageType = MessageType.Info;
-  position: Position = Position.TopLeft;
+  messageType: ToastrMessageType = ToastrMessageType.Info;
+  position: ToastrPosition = ToastrPosition.TopLeft;
 }
-export enum MessageType{
+export enum ToastrMessageType{
 Success = "success",
 Error = "error",
 Info = "info",
 Warning = "warning"
 }
 
-export enum Position{
+export enum ToastrPosition{
   TopRight = "toast-top-right",
   TopLeft = "toast-top-left",
   BottomRight = "toast-bottom-right",
