@@ -12,6 +12,9 @@ export class BaseComponent {
 
   hideSpinner(typeName : SpinnerType){
     this.spinner.hide(typeName);
+    setTimeout(() => {
+      document.querySelectorAll('[aria-hidden="true"]').forEach(el => el.removeAttribute('aria-hidden'));
+    }, 500);
   }
 }
 

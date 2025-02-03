@@ -59,12 +59,28 @@ namespace Infrastructure.Services
                     }
                     else
                     {
+                        int lastIndex = 0;
+                        while (true)
+                        {
+                            lastIndex = indexNo1;
+                            indexNo1 = newFileName.IndexOf("-", indexNo1 + 1);
+                            if (indexNo1 == -1)
+                            {
+                                indexNo1 = lastIndex;
+                                break;
+                            }
+                        }
                         int indexNo2 = newFileName.IndexOf(".");
-                        string fileNo= newFileName.Substring(indexNo1, indexNo2 - indexNo1 - 1);
-                        int _fileNo = int.Parse(fileNo);
-                        _fileNo++;
-                        newFileName = newFileName.Remove(indexNo1, indexNo2 - indexNo1 - 1)
-                        .Insert(indexNo1, _fileNo.ToString());
+                        string fileNo= newFileName.Substring(indexNo1 + 1 , indexNo2 - indexNo1 -1);
+                        if (int.TryParse(fileNo, out int _fileNo))
+                        {
+                            _fileNo++;
+                            newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 -1)
+                      .Insert(indexNo1 + 1, _fileNo.ToString());
+
+                        } else
+                            newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-2{extension}";
+
 
                     }
                 
@@ -78,7 +94,7 @@ namespace Infrastructure.Services
                     return newFileName;
             });
 
-            return "";
+            return newFileName;
         }
 
         public async Task<List<(string fileName, string path)>> UploadAsync(string path, IFormFileCollection files)

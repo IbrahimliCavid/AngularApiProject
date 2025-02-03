@@ -10,13 +10,14 @@ export class DialogService {
   constructor(private dialog : MatDialog) { }
 
      openDialog(dialogPrametrs : Partial<DiaolgParametrs>): void {
+     
         const dialogRef = this.dialog.open(dialogPrametrs.coponentType, {
           width: dialogPrametrs.options?.width,
           height : dialogPrametrs.options?.height,
           position : dialogPrametrs.options?.position,
           data: dialogPrametrs.data,
+          autoFocus : false
         });
-    
         dialogRef.afterClosed().subscribe((result) => {
           if(result == dialogPrametrs.data){
             dialogPrametrs.afterClosed();
