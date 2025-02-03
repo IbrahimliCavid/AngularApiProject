@@ -39,8 +39,7 @@ constructor(
     coponentType : FileUploadDialogComponent,
     data : FileUploadDialogState.Yes,
     afterClosed : ()=>{
-      ()=>{
-
+    
         this.httpClientService.post({
           controller : this.options.controller,
           action : this.options.action,
@@ -80,7 +79,6 @@ constructor(
            }
         })
     
-      }
     }
   })
   }
