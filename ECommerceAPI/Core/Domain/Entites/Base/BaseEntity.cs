@@ -10,6 +10,6 @@ namespace Domain.Entites.Base
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }   
-        public DateTime LastUpdateDate { get; set; }
+      virtual  public DateTime LastUpdateDate { get; set; }
     }
 }
