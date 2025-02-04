@@ -7,6 +7,8 @@ import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploadDialogComponent, FileUploadDialogState } from 'src/app/dialogs/file-upload-dialog/file-upload-dialog.component';
 import { DialogService } from '../dialog.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from 'src/app/base/base.component';
 
 @Component({
   selector: 'app-file-upload',
@@ -20,7 +22,8 @@ constructor(
   private alertifyService : AlertifyService,
   private customToastrService : CustomToastrService,
   // private dialog : MatDialog
-  private dialogService : DialogService
+  private dialogService : DialogService,
+  private spinner : NgxSpinnerService
 ) {
 }
  @Input() options : Partial<FileUploadOptions>;
@@ -40,12 +43,14 @@ constructor(
     data : FileUploadDialogState.Yes,
     afterClosed : ()=>{
     
+      this.spinner.show(SpinnerType.BallFussion)
         this.httpClientService.post({
           controller : this.options.controller,
           action : this.options.action,
           queryString: this.options.queryString,
           headers : new HttpHeaders({"responseType": "blob"})
         }, fileData).subscribe(data=>{
+          this.spinner.hide(SpinnerType.BallFussion)
           const message : string = "File successed upload";
           if(this.options.isAdminPage){
             this.alertifyService.message(message,{
@@ -63,6 +68,7 @@ constructor(
           
       
         }, (errorResponse : HttpErrorResponse)=>{
+          this.spinner.hide(SpinnerType.BallFussion)
           const message : string = "An error occurred while uploading the files"
           if(this.options.isAdminPage){
             this.alertifyService.message(message,{

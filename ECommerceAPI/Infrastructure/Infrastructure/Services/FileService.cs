@@ -109,7 +109,7 @@ namespace Infrastructure.Services
             foreach (IFormFile file in files) { 
                string newFileName = await FileRenameAsync(uploadPath, file.FileName);
               bool result =  await CopyFileAsync(Path.Combine(uploadPath, newFileName), file);
-                datas.Add((newFileName, Path.Combine(uploadPath, newFileName)));
+                datas.Add((newFileName, Path.Combine(path, newFileName)));
                 results.Add(result);    
             }
 
