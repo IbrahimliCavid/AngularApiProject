@@ -12,6 +12,8 @@ namespace Domain.Entites
     {
         public string FileName { get; set; }
         public string Path { get; set; }    
+
+        public string Storage { get; set; }
         [NotMapped]
         public override DateTime LastUpdateDate { get => base.LastUpdateDate; set => base.LastUpdateDate = value; }
     }
