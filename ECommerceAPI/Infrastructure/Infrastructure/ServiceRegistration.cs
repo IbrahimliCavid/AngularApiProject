@@ -1,4 +1,4 @@
-﻿using Application.Services;
+﻿using Application.Abstractions;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,7 +12,13 @@ namespace Infrastructure
     public static class ServiceRegistration
     {
         public static void AddInfrastutuctureServices(this IServiceCollection services) { 
-        services.AddScoped<IFileService, FileService>();
+
+            services.AddScoped<IStorageService, StorageService>();
+        }
+
+        public static void AddStorage<T>(this IServiceCollection services) where T : class, IStorage
+        {
+            services.AddScoped<IStorage, T>();
         }
     }
 }
