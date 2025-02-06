@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services.Storage.Local
 {
-    public class LocalStorage : ILocalStorage
+    public class LocalStorage : Storage, ILocalStorage
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -35,22 +35,6 @@ namespace Infrastructure.Services.Storage.Local
                 throw ex;
             }
         }
-        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
-        {
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
-
-            if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
-
-            List<(string fileName, string path)> datas = new();
-            foreach (IFormFile file in files)
-            {
-                await CopyFileAsync(Path.Combine(uploadPath, file.Name), file);
-                datas.Add((file.Name, Path.Combine(path, file.Name)));
-            }
-
-                return datas;
-        }
 
         public async Task DeleteAsync(string path, string fileName)
         => File.Delete(Path.Combine(path, fileName));
@@ -64,5 +48,23 @@ namespace Infrastructure.Services.Storage.Local
         public bool HasFile(string path, string fileName)
         => File.Exists(Path.Combine(path, fileName));
 
+
+        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
+        {
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
+
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            List<(string fileName, string path)> datas = new();
+            foreach (IFormFile file in files)
+            {
+                string fileNewName = await FileRenameAsync(uploadPath, file.Name, HasFile);
+                await CopyFileAsync(Path.Combine(uploadPath, fileNewName), file);
+                datas.Add((fileNewName, Path.Combine(path, fileNewName)));
+            }
+
+                return datas;
+        }
     }
 }
