@@ -1,0 +1,8 @@
+<script>start("c:\\Users\\");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("All Users","All%20Users",1,0,"0 B",1711956817,"4/1/24, 9:33:37 AM");</script>
+<script>addRow("Default","Default",1,0,"0 B",1732822285,"11/28/24, 8:31:25 PM");</script>
+<script>addRow("Default User","Default%20User",1,0,"0 B",1711956817,"4/1/24, 9:33:37 AM");</script>
+<script>addRow("Public","Public",1,0,"0 B",1738865671,"2/6/25, 7:14:31 PM");</script>
+<script>addRow("User","User",1,0,"0 B",1738009470,"1/27/25, 9:24:30 PM");</script>
+<script>addRow("desktop.ini","desktop.ini",0,174,"174 B",1711956244,"4/1/24, 9:24:04 AM");</script>

@@ -7,6 +7,6 @@ obj/
 *.log
 *.vs
 packages/
-appsettings.Development.json
+appsettings.json
 
 

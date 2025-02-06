@@ -1,19 +1,18 @@
 ﻿using Infrastructure.Operations;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services.Storage
 {
-    public class FileService 
+    public class Storage
     {
-        async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
+        protected delegate bool HasFile(string pathOrContainerName, string fileName);
+        protected  async Task<string> FileRenameAsync(string pathOrContainerName, string fileName,HasFile hasFileMethod, bool first = true)
         {
-        string newFileName =  await  Task.Run<string>(async () =>
+            string newFileName = await Task.Run<string>(async () =>
             {
                 string extension = Path.GetExtension(fileName);
 
@@ -25,7 +24,7 @@ namespace Infrastructure.Services
                     newFileName = $"{NameOperation.CharacterRegulatory(oldFileName)}{extension}";
                 }
                 else
-                { 
+                {
                     newFileName = fileName;
                     int indexNo1 = newFileName.IndexOf('-');
                     if (indexNo1 == -1)
@@ -46,25 +45,26 @@ namespace Infrastructure.Services
                             }
                         }
                         int indexNo2 = newFileName.IndexOf(".");
-                        string fileNo= newFileName.Substring(indexNo1 + 1 , indexNo2 - indexNo1 -1);
+                        string fileNo = newFileName.Substring(indexNo1 + 1, indexNo2 - indexNo1 - 1);
                         if (int.TryParse(fileNo, out int _fileNo))
                         {
                             _fileNo++;
-                            newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 -1)
+                            newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 - 1)
                       .Insert(indexNo1 + 1, _fileNo.ToString());
 
-                        } else
+                        }
+                        else
                             newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-2{extension}";
 
 
                     }
-                
+
                 }
 
 
 
-                if (File.Exists(Path.Combine(path, newFileName)))
-                   return await FileRenameAsync(path, newFileName, false);
+                if (hasFileMethod(pathOrContainerName, newFileName))
+                    return await FileRenameAsync(pathOrContainerName, newFileName, hasFileMethod, false);
                 else
                     return newFileName;
             });
@@ -72,6 +72,5 @@ namespace Infrastructure.Services
             return newFileName;
         }
 
-      
     }
 }
