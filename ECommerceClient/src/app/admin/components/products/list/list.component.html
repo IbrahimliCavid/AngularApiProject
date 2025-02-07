@@ -32,6 +32,12 @@
         <td mat-cell *matCellDef="let element"> {{element.lastUpdateDate}} </td>
       </ng-container>
 
+       <!-- Upload Photo Column -->
+       <ng-container matColumnDef="uploadPhoto">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let element"> <img  style = "cursor: pointer;" (click)="uploadPhoto(element.id)" src ="../../../../../assets/PhotoUpload.png" width="22px">  </td>
+      </ng-container>
+
           <!-- Delete Column -->
           <ng-container matColumnDef="edit" >
             <th mat-header-cell *matHeaderCellDef width="20px" > </th>
