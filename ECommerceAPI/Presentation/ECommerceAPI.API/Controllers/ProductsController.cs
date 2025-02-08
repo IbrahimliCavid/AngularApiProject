@@ -101,40 +101,20 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
-            var datas = await _storageService.UploadAsync("fiels", Request.Form.Files);
-            //var datas =  await  _fileService.UploadAsync("resource/fiels", Request.Form.Files);
-            await _productImageFileWriteRepository.AddRangeAsync(datas.Select(data => new ProductImageFile()
+         List<(string fileName, string PathOrContainer)> result =  await _storageService.UploadAsync("product-images", Request.Form.Files);
+
+            Product product = await _readRepository.GetByIdAsync(id);
+           await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
             {
-                FileName = data.fileName,
-                Path = data.pathOrContainerName,
-                Storage = _storageService.StorageName
-            }).ToList());
+                FileName = r.fileName,
+                Path = r.PathOrContainer,
+               Storage = _storageService.StorageName,
+               Products = new List<Product>() { product}
+           }).ToList());
 
             await _productImageFileWriteRepository.SaveAsync();
-
-
-            //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(data => new InvoiceFile()
-            //{
-            //    FileName = data.fileName,
-            //    Path = data.path,
-            //    Price = new Random().Next()
-            //}).ToList());
-
-            //await _invoiceFileWriteRepository.SaveAsync();
-
-            //await _fileWriteRepository.AddRangeAsync(datas.Select(data => new Domain.Entites.File()
-            //{
-            //    FileName = data.fileName,
-            //    Path = data.path
-            //}).ToList());
-
-            //await _productImageFileWriteRepository.SaveAsync();
-
-            //var d1 = _fileReadRepository.GetAll(false);
-            //var d2 = _invoiceFileReadRepository.GetAll(false);
-            //var d3  = _productImageFileReadRepository.GetAll(false);
 
             return Ok();
         }
