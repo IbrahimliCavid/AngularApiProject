@@ -4,6 +4,7 @@ import { CreateProduct } from 'src/app/contracts/create-product';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ListProduct } from 'src/app/contracts/list-product';
 import { firstValueFrom, Observable } from 'rxjs';
+import { ListProductImages } from 'src/app/contracts/list-product-images';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,26 @@ export class ProductService {
     }, id)
 
    await firstValueFrom(deleteObservable)
+  }
+
+  async readImages(id : string, successCallBack? : ()=> void) : Promise<ListProductImages[]>{
+    
+  const getObservable : Observable<ListProductImages[]>=  this.clientService.get<ListProductImages[]>({
+      action : "GetProductImages",
+      controller : "products"
+    }, id);
+ const images : ListProductImages[] = await firstValueFrom(getObservable);
+successCallBack();
+  return  images;
+  }
+
+  async deleteImage(id:string, imageId : string, successCallBack? : ()=> void){
+  const deleteObservabele =  this.clientService.delete({
+      action: "DeleteProductImage",
+      controller: "products",
+      queryString : `imageId=${imageId}`
+    }, id);
+     await firstValueFrom(deleteObservabele);
+     successCallBack();
   }
 }
