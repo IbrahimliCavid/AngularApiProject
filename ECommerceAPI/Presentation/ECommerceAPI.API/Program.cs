@@ -1,3 +1,4 @@
+using Application;
 using Application.Validations.Products;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -11,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastutuctureServices();
-builder.Services.AddStorage<AzureStorage>();
 builder.Services.AddPersistenceServices();
+builder.Services.AddApplicationService();
+
+builder.Services.AddStorage<AzureStorage>();
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(
     policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
     ));
