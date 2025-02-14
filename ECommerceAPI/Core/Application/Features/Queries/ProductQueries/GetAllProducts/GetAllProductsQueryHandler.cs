@@ -34,8 +34,8 @@ namespace Application.Features.Queries.ProductQueries.GetAllProducts
 
             return new GetAllProductsQueryResponse
             {
-                ToatalCount = totalCount,
-                Products = products
+                Products = products,
+                TotalCount = totalCount
             };
         }
     }

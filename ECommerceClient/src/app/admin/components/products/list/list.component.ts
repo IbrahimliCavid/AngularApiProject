@@ -42,6 +42,9 @@ async getProducts(){
 
   this.dataSource = new MatTableDataSource<ListProduct>(allProducts.products);
   this.paginator.length = coerceNumberProperty(allProducts.totalCount);
+  
+  
+  
 }
 async ngOnInit() {
  await this.getProducts();

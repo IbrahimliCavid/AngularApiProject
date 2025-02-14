@@ -8,5 +8,6 @@ namespace Application.Features.Commands.ProductImageFileCommands.UploadProductIm
 {
     public class UploadProductImageCommandResponse
     {
+      
     }
 }
