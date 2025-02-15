@@ -24,33 +24,11 @@ namespace ECommerceAPI.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        //Test Repository design pattern
-        private readonly IProductWriteRepository _writeRepository;
-        private readonly IProductReadRepository _readRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IFileReadRepository _fileReadRepository;
-        private readonly IFileWriteRepository _fileWriteRepository;
-        private readonly IProductImageFileReadRepository _productImageFileReadRepository;
-        private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
-        private readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
-        private readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
-        private readonly IStorageService _storageService;
-        private readonly IConfiguration _configuration;
 
         private readonly IMediator _mediator;
-        public ProductsController(IProductWriteRepository writeRepository, IProductReadRepository readRepository, IWebHostEnvironment webHostEnvironment, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService, IConfiguration configuration, IMediator mediator)
+        public ProductsController(IMediator mediator)
         {
-            _writeRepository = writeRepository;
-            _readRepository = readRepository;
-            _webHostEnvironment = webHostEnvironment;
-            _fileReadRepository = fileReadRepository;
-            _fileWriteRepository = fileWriteRepository;
-            _productImageFileReadRepository = productImageFileReadRepository;
-            _productImageFileWriteRepository = productImageFileWriteRepository;
-            _invoiceFileReadRepository = invoiceFileReadRepository;
-            _invoiceFileWriteRepository = invoiceFileWriteRepository;
-            _storageService = storageService;
-            _configuration = configuration;
+          
             _mediator = mediator;
         }
 
@@ -111,7 +89,6 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
-
         public async Task<IActionResult> DeleteProductImage([FromRoute] DeleteProductImageCommandRequest request, [FromQuery] string imageId)
         {
             request.ImageId = imageId;
