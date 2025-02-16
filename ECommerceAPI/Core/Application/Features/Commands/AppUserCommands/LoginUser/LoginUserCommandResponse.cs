@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Commands.AppUserCommands.LoginUser
 {
-    internal class LoginUserCommandResponse
+    public class LoginUserCommandResponse
     {
     }
 }
