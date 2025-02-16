@@ -1,0 +1,19 @@
+<div class="container mt-3">
+    <div class="w-25 mx-auto ">
+
+            <div class="form-group mt-3">
+                <label for="username">Username & Email</label>
+                <input #txtUsernameOrEmail type="text"  class="form-control" id="username" placeholder="Username" >
+                <small id="emailHelp" class="form-text text-muted" style="color:red!important; display: none;">****</small>
+                  </div>
+
+
+            <div class="form-group mt-3">
+              <label for="password">Password</label>
+              <input #txtPassword type="password" class="form-control" id="password" placeholder="Password" >
+            </div>
+
+
+            <button type="submit" class="btn btn-primary mt-3" (click)="login(txtUsernameOrEmail.value, txtPassword.value)">Sign in</button>
+    </div>
+</div>
