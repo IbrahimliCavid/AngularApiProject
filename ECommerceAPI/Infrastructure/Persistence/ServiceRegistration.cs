@@ -1,4 +1,5 @@
 ﻿using Application.Repositories;
+using Domain.Entites.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.DbContexts;
@@ -16,6 +17,16 @@ namespace Persistence
         public static void AddPersistenceServices(this IServiceCollection service)
         {
             service.AddDbContext<ECommerceDbContext>(options => options.UseNpgsql(Configuration.ConnectionString), ServiceLifetime.Singleton);
+
+            service.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ECommerceDbContext>();
 
             service.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             service.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();

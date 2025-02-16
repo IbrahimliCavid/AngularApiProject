@@ -1,5 +1,4 @@
-﻿using Application.Abstractions;
-using Application.Features.Commands.ProductCommands.CreateProduct;
+﻿using Application.Features.Commands.ProductCommands.CreateProduct;
 using Application.Features.Commands.ProductCommands.DeleteProduct;
 using Application.Features.Commands.ProductCommands.UpdateProduct;
 using Application.Features.Commands.ProductImageFileCommands.DeleteProductImage;
@@ -7,15 +6,8 @@ using Application.Features.Commands.ProductImageFileCommands.UploadProductImage;
 using Application.Features.Queries.ProductImageFileQueries.GetProductImage;
 using Application.Features.Queries.ProductQueries.GetAllProducts;
 using Application.Features.Queries.ProductQueries.GetByIdProduct;
-using Application.Repositories;
-using Application.RequestParametrs;
-using Application.ViewModules.Products;
-using Domain.Entites;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Repositories;
 using System.Net;
 
 namespace ECommerceAPI.API.Controllers
