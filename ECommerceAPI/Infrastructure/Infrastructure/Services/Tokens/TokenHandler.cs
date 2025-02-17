@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions.Local
+namespace Infrastructure.Services.Tokens
 {
-    public interface ILocalStorage : IStorage
+    internal class TokenHandler
     {
     }
 }

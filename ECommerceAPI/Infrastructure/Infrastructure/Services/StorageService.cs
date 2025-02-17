@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Storage;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

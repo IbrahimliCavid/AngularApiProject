@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions.Azure
+namespace Application.Abstractions.Token
 {
-    public interface IAzureStorage : IStorage
+    internal class TokenHandler
     {
     }
 }

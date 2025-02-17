@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Local;
+﻿using Application.Abstractions.Storage.Local;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;

@@ -1,4 +1,4 @@
-﻿using Application.Abstractions;
+﻿using Application.Abstractions.Storage;
 using Infrastructure.Services;
 using Infrastructure.Services.Storage;
 using Microsoft.Extensions.DependencyInjection;
