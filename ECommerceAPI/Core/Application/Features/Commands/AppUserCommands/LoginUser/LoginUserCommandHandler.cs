@@ -1,4 +1,6 @@
-﻿using Application.Exceptions;
+﻿using Application.Abstractions.Tokens;
+using Application.Dtos;
+using Application.Exceptions;
 using Domain.Entites.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -14,11 +16,13 @@ namespace Application.Features.Commands.AppUserCommands.LoginUser
     {
         readonly UserManager<AppUser> _userManager;
         readonly SignInManager<AppUser> _signInManager;
+        readonly ITokenHandler _tokenHandler;
 
-        public LoginUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public LoginUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenHandler = tokenHandler;
         }
 
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
@@ -31,8 +35,18 @@ namespace Application.Features.Commands.AppUserCommands.LoginUser
           SignInResult result =  await _signInManager.PasswordSignInAsync(user, request.Password, false,false);
             if (result.Succeeded)
             {
+              Token token =  _tokenHandler.CreateAccessToken(30);
+                return new LoginUserSuccessCommandResponse ()
+                {
+                    Token = token
+                };
             }
-            return new();
+
+            //return new LoginUserErrorCommandResponse()
+            //{
+            //    Message = "Authentication error occurred."
+            //};
+            throw new AuthenticationErrorException();
         }
     }
 }

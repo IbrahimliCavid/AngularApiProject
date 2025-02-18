@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Filters;
 using Infrastructure.Services.Storage.Azure;
 using Infrastructure.Services.Storage.Local;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using System.Reflection;
@@ -30,8 +31,8 @@ builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication("Admin")
-    .AddJwtBearer(options => {
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("Admin",options => {
         options.TokenValidationParameters = new()
         {
             ValidateAudience = true,
@@ -60,6 +61,8 @@ app.UseStaticFiles();
 app.UseCors();
 app.UseHttpsRedirection();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Application.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions.Token
+namespace Application.Abstractions.Tokens
 {
-    internal class TokenHandler
+    public interface ITokenHandler
     {
+        Token CreateAccessToken(int minute);
     }
 }
