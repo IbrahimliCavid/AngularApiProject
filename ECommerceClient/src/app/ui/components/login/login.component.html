@@ -13,8 +13,11 @@
               <input #txtPassword type="password" class="form-control" id="password" placeholder="Password" >
             </div>
 
-
+	
+               	
+              <asl-google-signin-button></asl-google-signin-button>
             <button type="submit" class="btn btn-primary mt-3" (click)="login(txtUsernameOrEmail.value, txtPassword.value)">Sign in</button>
             <a class="nav-link" routerLink="/register">Sig up</a>
+            
     </div>
 </div>
