@@ -1,4 +1,4 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { FacebookLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,19 +24,37 @@ export class LoginComponent extends BaseComponent {
   private socialAuthService: SocialAuthService) {
     super(spinner)
     socialAuthService.authState.subscribe(async(user : SocialUser) =>{
-   
+     console.log(user);
+     
       this.showSpinner(SpinnerType.BallNewtonCradle);
-    await  userService.googleLogin(user, ()=> {
-       this.authService.identitycheck();
-       this.activatedRoute.queryParams.subscribe(params =>{
-        const returnUrl : string = params["returnUrl"]
-        if(returnUrl)
-          this.router.navigate([returnUrl])
-       });
-      this.hideSpinner(SpinnerType.BallNewtonCradle)
-    })
-      
-    })
+      switch(user.provider){
+        case "GOOGLE" : 
+        await  userService.googleLogin(user, ()=> {
+          this.authService.identitycheck();
+          this.activatedRoute.queryParams.subscribe(params =>{
+           const returnUrl : string = params["returnUrl"]
+           if(returnUrl)
+             this.router.navigate([returnUrl])
+          });
+         this.hideSpinner(SpinnerType.BallNewtonCradle)
+       })
+       break;
+
+       case "FACEBOOK":
+          
+          await userService.facebookLogin(user, ()=>{
+            this.authService.identitycheck();
+            this.activatedRoute.queryParams.subscribe(params =>{
+             const returnUrl : string = params["returnUrl"]
+             if(returnUrl)
+               this.router.navigate([returnUrl])
+            });
+           this.hideSpinner(SpinnerType.BallNewtonCradle)
+          })
+        break;
+      }
+    });
+   
   }
 
 
@@ -51,5 +69,9 @@ export class LoginComponent extends BaseComponent {
    });
     this.hideSpinner(SpinnerType.BallNewtonCradle)
   })
+  }
+  facebookLogin(){
+    this.socialAuthService.signOut(); // Əgər daxil olmuşsınızsa, çıxış edin
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID, { scope: 'email' })
   }
 }
