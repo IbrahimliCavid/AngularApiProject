@@ -1,9 +1,12 @@
-﻿using Application.Repositories;
+﻿using Application.Abstractions.Services;
+using Application.Abstractions.Services.Authentifications;
+using Application.Repositories;
 using Domain.Entites.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.DbContexts;
 using Persistence.Repositories;
+using Persistence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +43,11 @@ namespace Persistence
             service.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
             service.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
             service.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+
+            service.AddScoped<IUserService, UserService>();
+            service.AddScoped<IAuthService, AuthService>();
+            service.AddScoped<IExternalAuthentication, AuthService>();
+            service.AddScoped<IInternalAuthentication, AuthService>();
         }
     }
 }

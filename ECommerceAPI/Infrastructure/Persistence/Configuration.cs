@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-    static class Configuration
+    public static class Configuration
     {
         public static string ConnectionString
         {

@@ -1,4 +1,6 @@
-﻿using Application.Exceptions;
+﻿using Application.Abstractions.Services;
+using Application.Dtos.User;
+using Application.Exceptions;
 using Domain.Entites.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -12,40 +14,31 @@ namespace Application.Features.Commands.AppUserCommands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
-        readonly UserManager<AppUser> _userManager;
+        readonly IUserService _userService;
 
-        public CreateUserCommandHandler(UserManager<AppUser> userManager)
+        public CreateUserCommandHandler(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-          IdentityResult result =  await _userManager.CreateAsync(new()
+
+           CreateUserResponseDto response = await  _userService.CreateUserAsync(new()
             {
-              Id = Guid.NewGuid().ToString(),
-                Fullname = request.Fullname,
-                UserName = request.Username,
+                 Fullname = request.Fullname,
+                 Username = request.Username,
                 Email = request.Email,
-            }, request.Password);
+                 Password = request.Password,
+                 Repassword = request.Repassword,
+             });
 
-            CreateUserCommandResponse response = new() { Succeeded =  result.Succeeded };
 
-            if (result.Succeeded)
-                response.Message = "User created successfully";
-            else
+            return new()
             {
-                foreach (var error in result.Errors)
-                {
-                    response.Message += $"{error.Code} - {error.Description}\n";
-                }
-            }
-               
-
-            return response;
-
-
-            //throw new UserCreateFailedException();
+                Message = response.Message,
+                Succeeded = response.Succeeded
+            };
         }
     }
 }

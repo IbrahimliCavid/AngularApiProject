@@ -9,6 +9,6 @@ namespace Application.Features.Commands.AppUserCommands.FacebookLogin
 {
     public class FacebookLoginCommandResponse
     {
-        public Token Token { get; set; }
+        public TokenDto Token { get; set; }
     }
 }

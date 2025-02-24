@@ -1,52 +1,24 @@
-﻿using Application.Abstractions.Tokens;
-using Application.Dtos;
-using Application.Exceptions;
-using Domain.Entites.Identity;
+﻿using Application.Abstractions.Services.Authentifications;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Commands.AppUserCommands.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommandRequest, LoginUserCommandResponse>
     {
-        readonly UserManager<AppUser> _userManager;
-        readonly SignInManager<AppUser> _signInManager;
-        readonly ITokenHandler _tokenHandler;
+       readonly IInternalAuthentication _authService;
 
-        public LoginUserCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
+        public LoginUserCommandHandler(IInternalAuthentication authService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenHandler = tokenHandler;
+            _authService = authService;
         }
 
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
         {
-
-            AppUser user = await _userManager.FindByNameAsync(request.UsernameOrEmail) ?? await _userManager.FindByEmailAsync(request.UsernameOrEmail);
-            if(user == null) 
-                throw new NotFoundUserException();
-
-          SignInResult result =  await _signInManager.PasswordSignInAsync(user, request.Password, false,false);
-            if (result.Succeeded)
+           var token = await _authService.LoginAsync(request.UsernameOrEmail, request.Password, 5000);
+            return new LoginUserSuccessCommandResponse()
             {
-              Token token =  _tokenHandler.CreateAccessToken(30);
-                return new LoginUserSuccessCommandResponse ()
-                {
-                    Token = token
-                };
-            }
-
-            //return new LoginUserErrorCommandResponse()
-            //{
-            //    Message = "Authentication error occurred."
-            //};
-            throw new AuthenticationErrorException();
+                Token = token
+            };
         }
     }
 }

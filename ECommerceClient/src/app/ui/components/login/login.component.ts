@@ -6,6 +6,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { TokenResponse } from 'src/app/contracts/token/token-response';
 import { AuthService } from 'src/app/services/common/auth.service';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
+import { UserAuthService } from 'src/app/services/common/models/user-auth.service';
 import { UserService } from 'src/app/services/common/models/user.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { UserService } from 'src/app/services/common/models/user.service';
 export class LoginComponent extends BaseComponent {
 
   constructor(
-    private userService : UserService,
+    private userAuthService : UserAuthService,
      spinner : NgxSpinnerService, 
      private authService : AuthService,
     private activatedRoute : ActivatedRoute,
@@ -29,7 +30,7 @@ export class LoginComponent extends BaseComponent {
       this.showSpinner(SpinnerType.BallNewtonCradle);
       switch(user.provider){
         case "GOOGLE" : 
-        await  userService.googleLogin(user, ()=> {
+        await  userAuthService.googleLogin(user, ()=> {
           this.authService.identitycheck();
           this.activatedRoute.queryParams.subscribe(params =>{
            const returnUrl : string = params["returnUrl"]
@@ -42,7 +43,7 @@ export class LoginComponent extends BaseComponent {
 
        case "FACEBOOK":
           
-          await userService.facebookLogin(user, ()=>{
+          await userAuthService.facebookLogin(user, ()=>{
             this.authService.identitycheck();
             this.activatedRoute.queryParams.subscribe(params =>{
              const returnUrl : string = params["returnUrl"]
@@ -60,7 +61,7 @@ export class LoginComponent extends BaseComponent {
 
  async login(usernameOrEmail : string, password : string){
   this.showSpinner(SpinnerType.BallNewtonCradle)
-   await this.userService.login(usernameOrEmail, password, ()=>{
+   await this.userAuthService.login(usernameOrEmail, password, ()=>{
     this.authService.identitycheck();
    this.activatedRoute.queryParams.subscribe(params => {
     const returnUrl : string = params["returnUrl"]

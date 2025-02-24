@@ -12,7 +12,7 @@ namespace Application.Features.Commands.AppUserCommands.LoginUser
     }
     public class LoginUserSuccessCommandResponse : LoginUserCommandResponse
     {
-        public Token Token { get; set; }
+        public TokenDto Token { get; set; }
     }
 
     public class LoginUserErrorCommandResponse : LoginUserCommandResponse

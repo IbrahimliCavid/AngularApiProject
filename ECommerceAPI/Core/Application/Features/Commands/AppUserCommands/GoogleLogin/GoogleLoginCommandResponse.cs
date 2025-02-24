@@ -9,6 +9,6 @@ namespace Application.Features.Commands.AppUserCommands.GoogleLogin
 {
     public class GoogleLoginCommandResponse
     {
-        public Token Token { get; set; }
+        public TokenDto Token { get; set; }
     }
 }

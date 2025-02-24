@@ -20,14 +20,14 @@ namespace Infrastructure.Services.Tokens
             _configuration = configuration;
         }
 
-        public Token CreateAccessToken(int minute)
+        public TokenDto CreateAccessToken(int second)
         {
-            Token token = new();
+            TokenDto token = new();
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
 
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+            token.Expiration = DateTime.UtcNow.AddSeconds(second);
 
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
