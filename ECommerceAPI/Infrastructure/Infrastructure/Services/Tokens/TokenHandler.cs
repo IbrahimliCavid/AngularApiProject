@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Infrastructure.Services.Tokens
 {
     public class TokenHandler : ITokenHandler
     {
-           readonly IConfiguration _configuration;
+        readonly IConfiguration _configuration;
 
         public TokenHandler(IConfiguration configuration)
         {
@@ -34,12 +35,23 @@ namespace Infrastructure.Services.Tokens
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow,
-                signingCredentials : signingCredentials
+                signingCredentials: signingCredentials
                 );
 
             JwtSecurityTokenHandler tokenHandler = new();
-         token.AccessToken =   tokenHandler.WriteToken(securityToken);
+            token.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            
+            token.RefreshToken = CreateRefreshToken();
             return token;
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+            return Convert.ToBase64String(number);
         }
     }
 }

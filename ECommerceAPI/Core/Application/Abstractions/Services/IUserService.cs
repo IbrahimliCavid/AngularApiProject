@@ -10,5 +10,6 @@ namespace Application.Abstractions.Services
     public interface IUserService
     {
         Task<CreateUserResponseDto> CreateUserAsync(CreateUserDto dto);
+        Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime);
     }
 }

@@ -44,5 +44,12 @@ namespace Persistence.Services
             }
             return response;
         }
+
+        public async Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime)
+        {
+           AppUser user = await _userManager.FindByEmailAsync(userId);
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = accessTokenDate.AddSeconds(refreshTokenLifeTime);
+        }
     }
 }
