@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.User;
+using Domain.Entites.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Application.Abstractions.Services
     public interface IUserService
     {
         Task<CreateUserResponseDto> CreateUserAsync(CreateUserDto dto);
-        Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime);
+        Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
     }
 }

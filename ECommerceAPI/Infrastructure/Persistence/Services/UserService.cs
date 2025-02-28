@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Services;
 using Application.Dtos.User;
+using Application.Exceptions;
 using Application.Features.Commands.AppUserCommands.CreateUser;
 using Domain.Entites.Identity;
 using MediatR;
@@ -45,11 +46,16 @@ namespace Persistence.Services
             return response;
         }
 
-        public async Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime)
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
         {
-           AppUser user = await _userManager.FindByEmailAsync(userId);
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = accessTokenDate.AddSeconds(refreshTokenLifeTime);
+
+            if (user != null) {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+                await _userManager.UpdateAsync(user);
+            }else
+            throw new NotFoundUserException();
+
         }
     }
 }

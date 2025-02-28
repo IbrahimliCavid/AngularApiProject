@@ -19,7 +19,7 @@ namespace Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection service)
         {
-            service.AddDbContext<ECommerceDbContext>(options => options.UseNpgsql(Configuration.ConnectionString), ServiceLifetime.Singleton);
+            service.AddDbContext<ECommerceDbContext>(options => options.UseNpgsql(Configuration.ConnectionString), ServiceLifetime.Scoped);
 
             service.AddIdentity<AppUser, AppRole>(options =>
             {
