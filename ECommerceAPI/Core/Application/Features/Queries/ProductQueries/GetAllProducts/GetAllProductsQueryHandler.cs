@@ -23,6 +23,7 @@ namespace Application.Features.Queries.ProductQueries.GetAllProducts
 
         public async Task<GetAllProductsQueryResponse> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
         {
+            throw new Exception("Allah xeta alindi");
             int totalCount = _productReadRepository.GetCount();
             var products = _productReadRepository.GetAll(false).Select(p => new
             {

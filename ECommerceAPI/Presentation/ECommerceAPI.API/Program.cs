@@ -1,21 +1,19 @@
 using Application;
 using Application.Validations.Products;
 using ECommerceAPI.API.Configurations.ColumnWriters;
+using ECommerceAPI.API.Extensions;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Filters;
 using Infrastructure.Services.Storage.Azure;
-using Infrastructure.Services.Storage.Local;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 
@@ -99,7 +97,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.ConfigureExceptionHandler();
 app.UseStaticFiles();
 app.UseSerilogRequestLogging();
 app.UseHttpLogging();
