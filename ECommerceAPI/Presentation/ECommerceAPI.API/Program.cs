@@ -14,6 +14,7 @@ using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
+using SignalR;
 using System.Security.Claims;
 using System.Text;
 
@@ -23,6 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastutuctureServices();
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationService();
+builder.Services.AddSignalRServices();
 
 builder.Services.AddStorage<AzureStorage>();
 
@@ -59,7 +61,7 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(
-    policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+    policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials()
     ));
 
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
@@ -117,5 +119,6 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+app.MapHubs();
 
 app.Run();

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SignaIR.Hubs
+namespace SignalR.Hubs
 {
     public class ProductHub : Hub
     {

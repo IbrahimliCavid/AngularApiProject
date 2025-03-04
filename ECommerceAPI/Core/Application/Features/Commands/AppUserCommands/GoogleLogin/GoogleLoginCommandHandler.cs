@@ -16,7 +16,7 @@ namespace Application.Features.Commands.AppUserCommands.GoogleLogin
 
         public async Task<GoogleLoginCommandResponse> Handle(GoogleLoginCommandRequest request, CancellationToken cancellationToken)
         {
-         TokenDto token =  await _authService.GoogleLoginAsync(request.IdToken, 20);
+         TokenDto token =  await _authService.GoogleLoginAsync(request.IdToken, 5000);
 
             return new()
             {

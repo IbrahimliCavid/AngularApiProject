@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
+import { HubUrls } from 'src/app/constants/hub-urls';
+import { ReceiveFunctions } from 'src/app/constants/receive-functions';
 import { AlertifyService, MessageType, Position } from 'src/app/services/admin/alertify.service';
+import { SignalRService } from 'src/app/services/common/signalr.service';
 declare var alertfy : any;
 
 @Component({
@@ -11,14 +14,20 @@ declare var alertfy : any;
 })
 export class DashboardComponent extends BaseComponent implements OnInit {
  
-  constructor(private alertify : AlertifyService, spinner:NgxSpinnerService) {
+  constructor(private alertify : AlertifyService, spinner:NgxSpinnerService, private signalRService : SignalRService) {
     super(spinner);
-    
+    signalRService.start(HubUrls.ProductHub)
   }
   
-    c
     ngOnInit(): void {
-      this.showSpinner(SpinnerType.BallFussion)
+      this.showSpinner(SpinnerType.BallFussion);
+      this.signalRService.on(ReceiveFunctions.ReceiveProductAddedMessageReceiveFunction, message =>{
+        this.alertify.message(message, {
+          position:Position.TopLeft,
+          dismissOther: true,
+          messageType : MessageType.Notify
+        })
+      })
     }
 
   m(){

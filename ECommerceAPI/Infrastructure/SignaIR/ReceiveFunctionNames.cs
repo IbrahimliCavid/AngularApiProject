@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions.Hubs
+namespace SignalR
 {
-    public interface IProductHubService
+    public static class ReceiveFunctionNames
     {
-        Task ProductAddedMessageAsync(string message);  
+        public const string ProductAddedMessage = "ReceiveProductAddedMessage";
     }
 }

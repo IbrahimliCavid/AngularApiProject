@@ -68,7 +68,7 @@ namespace Persistence.Services
 
 
                 TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-               await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
+               await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 2000);
 
                 return token;
             }
@@ -127,7 +127,7 @@ namespace Persistence.Services
             if (result.Succeeded)
             {
                 TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
-              await  _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 10);
+              await  _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 2000);
 
                 return token;
             }
@@ -142,7 +142,7 @@ namespace Persistence.Services
             if(user !=null && user.RefreshTokenExpiryTime > DateTime.UtcNow)
             {
                 TokenDto token = _tokenHandler.CreateAccessToken(15, user);
-                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 2000);
                 return token;
             }else
             throw new NotFoundUserException();
