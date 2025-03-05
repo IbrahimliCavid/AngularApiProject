@@ -15,7 +15,7 @@ namespace ECommerceAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
+    
     public class ProductsController : ControllerBase
     {
 
@@ -44,7 +44,7 @@ namespace ECommerceAPI.API.Controllers
 
 
         [HttpPost]
-
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(CreateProductCommandRequest request)
         {
            CreateProductCommandResponse response =   await _mediator.Send(request);
@@ -52,6 +52,7 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Put([FromBody]UpdateProductCommandRequest request)
         {
          UpdateProductCommandResponse response =await  _mediator.Send(request);
@@ -60,6 +61,7 @@ namespace ECommerceAPI.API.Controllers
 
 
         [HttpDelete("{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete([FromRoute]DeleteProductCommandRequest request)
         {
             await _mediator.Send(request);  
@@ -67,6 +69,7 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest request)
         {
             request.Files = Request.Form.Files;
@@ -76,6 +79,7 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpGet("[action]/{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> GetProductImages([FromRoute]GetProductImageQueryRequest request)
         {
          List<GetProductImageQueryResponse> response = await _mediator.Send(request);
@@ -83,6 +87,7 @@ namespace ECommerceAPI.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> DeleteProductImage([FromRoute] DeleteProductImageCommandRequest request, [FromQuery] string imageId)
         {
             request.ImageId = imageId;

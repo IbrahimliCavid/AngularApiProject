@@ -33,7 +33,7 @@ dataSource : MatTableDataSource<ListProduct> = null;
 
 async getProducts(){
   this.showSpinner(SpinnerType.BallFussion);
-  const allProducts : {totalCount : Number, products :ListProduct[]} =  await this.productService.read(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,()=> this.hideSpinner(SpinnerType.BallFussion), 
+  const allProducts : {totalCount : number, products :ListProduct[]} =  await this.productService.read(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,()=> this.hideSpinner(SpinnerType.BallFussion), 
   errorMessage => this.alertify.message(errorMessage,{
     dismissOther  : true,
     position : Position.TopLeft,
@@ -41,7 +41,7 @@ async getProducts(){
   }))
 
   this.dataSource = new MatTableDataSource<ListProduct>(allProducts.products);
-  this.paginator.length = coerceNumberProperty(allProducts.totalCount);
+  this.paginator.length =allProducts.totalCount;
   
   
   
