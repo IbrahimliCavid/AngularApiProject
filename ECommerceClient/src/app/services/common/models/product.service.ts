@@ -70,4 +70,15 @@ successCallBack();
      await firstValueFrom(deleteObservabele);
      successCallBack();
   }
+
+  async changeShowCaseImage(imageId : string, productId : string, successCallBack? :()=> void) : Promise<void>{
+    const observable = this.clientService.get({
+      controller : "products",
+      action : "ChangeShowcaseImage",
+      queryString : `imageId=${imageId}&productId=${productId}`
+     },)
+
+     await firstValueFrom(observable);
+     successCallBack();
+  }
 }

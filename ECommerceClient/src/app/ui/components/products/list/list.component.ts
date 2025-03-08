@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BaseStorageUrl } from 'src/app/contracts/base-storage-url';
 import { ListProduct } from 'src/app/contracts/list-product';
+import { FileService } from 'src/app/services/common/models/file.service';
 import { ProductService } from 'src/app/services/common/models/product.service';
 
 @Component({
@@ -9,7 +11,7 @@ import { ProductService } from 'src/app/services/common/models/product.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  constructor(private productService : ProductService, private activatedRoute : ActivatedRoute){
+  constructor(private productService : ProductService, private activatedRoute : ActivatedRoute, private fileService : FileService){
 
   }
 
@@ -19,8 +21,10 @@ export class ListComponent implements OnInit {
   pageSize : number = 8;
   pageList : number[] = [];
   products : ListProduct[];
-   ngOnInit() {
+  baseUrl : BaseStorageUrl;
+   async ngOnInit() {
 
+    this.baseUrl = await this.fileService.getBaseStorageUrl();
     this.activatedRoute.params.subscribe(async params =>{
       
       this.currentPageNo = parseInt(params["pageNo"] ?? 1)
@@ -30,8 +34,24 @@ export class ListComponent implements OnInit {
       }, errorMessage=>{
          
       });
-       data.totalCount
+       
       this.products = data.products;
+      this.products = this.products.map<ListProduct>( p =>{
+        const listProduct : ListProduct ={
+              id : p.id,
+              name : p.name,
+              price : p.price,
+              stock : p.stock,
+              lastUpdateDate : p.lastUpdateDate,
+              createdDate : p.createdDate,
+              imagePath :  `${this.baseUrl.url}/${p.productImageFiles.length ? p.productImageFiles?.find(p=>p.showcase).path : ""}`,
+              productImageFiles : p.productImageFiles
+        };
+        return listProduct;
+      })
+ 
+      
+    
       this.totalProductCount = data.totalCount;
       this.totalPageCount = Math.ceil(this.totalProductCount / this.pageSize);
 

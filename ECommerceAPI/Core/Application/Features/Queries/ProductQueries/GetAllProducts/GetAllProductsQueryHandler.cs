@@ -1,6 +1,7 @@
 ﻿using Application.Repositories;
 using Application.RequestParametrs;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,14 +25,17 @@ namespace Application.Features.Queries.ProductQueries.GetAllProducts
         public async Task<GetAllProductsQueryResponse> Handle(GetAllProductsQueryRequest request, CancellationToken cancellationToken)
         {
             int totalCount = _productReadRepository.GetCount();
-            var products = _productReadRepository.GetAll(false).Select(p => new
+            var products = _productReadRepository.GetAll(false)
+                .Include(p=>p.ProductImageFiles)
+                .Select(p => new
             {
                 p.Id,
                 p.Name,
                 p.Price,
                 p.Stock,
                 p.CreatedDate,
-                p.LastUpdateDate
+                p.LastUpdateDate,
+                p.ProductImageFiles
             }).Skip(request.Page * request.Size).Take(request.Size).ToList();
         _logger.LogInformation($"GetAllProductsQueryHandler: {products.Count} products returned");
 

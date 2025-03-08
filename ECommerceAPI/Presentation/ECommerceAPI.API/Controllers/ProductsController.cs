@@ -1,6 +1,7 @@
 ﻿using Application.Features.Commands.ProductCommands.CreateProduct;
 using Application.Features.Commands.ProductCommands.DeleteProduct;
 using Application.Features.Commands.ProductCommands.UpdateProduct;
+using Application.Features.Commands.ProductImageFileCommands.ChangeShowcaseImage;
 using Application.Features.Commands.ProductImageFileCommands.DeleteProductImage;
 using Application.Features.Commands.ProductImageFileCommands.UploadProductImage;
 using Application.Features.Queries.ProductImageFileQueries.GetProductImage;
@@ -83,6 +84,7 @@ namespace ECommerceAPI.API.Controllers
         public async Task<IActionResult> GetProductImages([FromRoute]GetProductImageQueryRequest request)
         {
          List<GetProductImageQueryResponse> response = await _mediator.Send(request);
+           
             return Ok(response);
         }
 
@@ -93,6 +95,14 @@ namespace ECommerceAPI.API.Controllers
             request.ImageId = imageId;
             DeleteProductImageCommandResponse response = await _mediator.Send(request);
             return Ok();
+        }
+
+        [HttpGet("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> ChangeShowcaseImage([FromQuery] ChangeShowcaseImageCommandRequest request)
+        {
+            ChangeShowcaseImageCommandResponse response = await _mediator.Send(request);
+            return Ok(response);
         }
     }
 }

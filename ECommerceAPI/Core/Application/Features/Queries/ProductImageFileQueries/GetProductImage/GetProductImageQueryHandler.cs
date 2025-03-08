@@ -30,7 +30,8 @@ namespace Application.Features.Queries.ProductImageFileQueries.GetProductImage
             {
                 Path = Path.Combine(_configuration["BaseStorageUrl"], p.Path),
                 FileName = p.FileName,
-                 Id=  p.Id
+                 Id=  p.Id,
+                 Showcase = p.Showcase
             }).ToList();
         }
     }

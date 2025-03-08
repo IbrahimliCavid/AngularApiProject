@@ -59,7 +59,10 @@ export class SelectProductImageDialogComponent extends BaseDialog<SelectProductI
     }
 
     showCase(imageId : string){
-
+      this.spinner.show(SpinnerType.BallFussion)
+         this.productService.changeShowCaseImage(imageId, this.data as string, ()=>{
+          this.spinner.hide(SpinnerType.BallFussion)
+         })
     }
 }
 
