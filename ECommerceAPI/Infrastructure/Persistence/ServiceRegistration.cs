@@ -43,11 +43,16 @@ namespace Persistence
             service.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
             service.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
             service.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+            service.AddScoped<IBasketReadRepository, BasketReadRepository>();
+            service.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
+            service.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
+            service.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
 
             service.AddScoped<IUserService, UserService>();
             service.AddScoped<IAuthService, AuthService>();
             service.AddScoped<IExternalAuthentication, AuthService>();
             service.AddScoped<IInternalAuthentication, AuthService>();
+            service.AddScoped<IBasketService, BasketService>();
         }
     }
 }
