@@ -3,25 +3,40 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../ui/custom-toastr.service';
 import { UserAuthService } from './models/user-auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
 
-  constructor(private toastr : CustomToastrService, private userAuthService : UserAuthService) { }
+  constructor(private toastr : CustomToastrService, private userAuthService : UserAuthService,private router : Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError(error =>{
        
       switch(error.status){
         case HttpStatusCode.Unauthorized:
-         this.userAuthService.refreshTokenLogin(localStorage.getItem("refreshToken")).then(data =>{})
+          
 
-        this.toastr.message("You are not authorized to access this resource. Please log in.",
-              "Unauthorized Access", {
-          position : ToastrPosition.TopLeft,
-          messageType : ToastrMessageType.Warning
-        });
+
+        this.userAuthService.refreshTokenLogin(localStorage.getItem("refreshToken"), (state:boolean)=>{
+          if(!state){
+            const url = this.router.url;
+            if(url == "/products")
+              this.toastr.message("Please create an account!",
+                "Warning", {
+            position : ToastrPosition.TopLeft,
+            messageType : ToastrMessageType.Warning
+          });
+          else
+          this.toastr.message("You are not authorized to access this resource. Please log in.",
+            "Unauthorized Access", {
+        position : ToastrPosition.TopLeft,
+        messageType : ToastrMessageType.Warning
+      });
+         
+          }
+        }).then(data =>{})
 
         break;
         case HttpStatusCode.NotFound:

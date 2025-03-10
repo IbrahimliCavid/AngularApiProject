@@ -1,17 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { BaseStorageUrl } from 'src/app/contracts/base-storage-url';
+import { CreateBasketItem } from 'src/app/contracts/basket/create-basket-item';
 import { ListProduct } from 'src/app/contracts/list-product';
+import { BasketService } from 'src/app/services/common/models/basket.service';
 import { FileService } from 'src/app/services/common/models/file.service';
 import { ProductService } from 'src/app/services/common/models/product.service';
+import { CustomToastrService, ToastrMessageType, ToastrPosition } from 'src/app/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
-  constructor(private productService : ProductService, private activatedRoute : ActivatedRoute, private fileService : FileService){
+export class ListComponent extends BaseComponent implements OnInit {
+  constructor(
+    private productService : ProductService,
+     private activatedRoute : ActivatedRoute,
+      private fileService : FileService,
+    private basketService : BasketService,
+  spinner : NgxSpinnerService,
+private toastrService : CustomToastrService){
+    super(spinner)
 
   }
 
@@ -77,6 +89,22 @@ export class ListComponent implements OnInit {
     });
 
    
+  }
+
+ async addToCart(product : ListProduct){
+  this.showSpinner(SpinnerType.BallFussion);
+
+    let basketItem : CreateBasketItem = new CreateBasketItem();
+    basketItem.productId = product.id;
+    basketItem.quantity = 1;
+  await   this.basketService.create(basketItem);
+
+  this.hideSpinner(SpinnerType.BallFussion);
+
+  this.toastrService.message( "Product added to cart successfuly", "Info",{
+    messageType : ToastrMessageType.Success,
+    position : ToastrPosition.TopLeft
+  })
   }
 
 }

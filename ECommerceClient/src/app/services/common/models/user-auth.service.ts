@@ -69,18 +69,21 @@ export class UserAuthService {
     callBack();
    }
 
-   async refreshTokenLogin(refreshToken:string, callBack?:() => void) : Promise<any>{
+   async refreshTokenLogin(refreshToken:string, callBack?:(state : boolean) => void) : Promise<any>{
      const observabele : Observable<any | TokenResponse> = this.httpClientService.post({
       controller : "auth",
       action: "refreshtokenlogin"
      },{refreshToken : refreshToken});
 
-     const tokenResponse : TokenResponse = await firstValueFrom(observabele) as TokenResponse;
+    try {
+      const tokenResponse : TokenResponse = await firstValueFrom(observabele) as TokenResponse;
 
-     if(tokenResponse){
-      localStorage.setItem("accessToken", tokenResponse.token.accessToken);
-      localStorage.setItem("refreshToken", tokenResponse.token.refreshToken);
+      if(tokenResponse){
+       localStorage.setItem("accessToken", tokenResponse.token.accessToken);
+       localStorage.setItem("refreshToken", tokenResponse.token.refreshToken);
+       callBack(tokenResponse ? true : false);
+    } }catch  {
+      callBack( false);
     }
-    callBack();
-   }
+  }
 }

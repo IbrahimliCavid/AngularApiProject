@@ -12,9 +12,9 @@
               <li class="nav-item">
                 <a class="nav-link"  routerLink="products">Products</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" routerLink="baskets">Baskets</a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" routerLink="register" *ngIf="!authService.isAuthenticated">Register</a>
               </li>
@@ -46,6 +46,10 @@
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form> -->
+
+            <div>
+              <button class="btn" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../assets/basket.png" alt="" width="15px"></button>
+            </div>
           </div>
         </div>
       </nav>
@@ -56,3 +60,6 @@
 
       <ngx-spinner name="ball-fussion" type="ball-fussion" size="default"></ngx-spinner>
       <ngx-spinner name="ball-newton-cradle" type="ball-newton-cradle" size="default"></ngx-spinner>
+
+   
+<app-baskets></app-baskets>

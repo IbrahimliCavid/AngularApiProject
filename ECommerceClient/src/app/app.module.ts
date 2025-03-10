@@ -12,6 +12,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { LoginComponent } from './ui/components/login/login.component';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { HttpErrorHandlerInterceptorService } from './services/common/http-error-handler-interceptor.service';
+import { BasketsModule } from "./ui/components/baskets/baskets.module";
+import { UiModule } from './ui/ui.module';
 
 @NgModule({
   declarations: [
@@ -23,17 +25,18 @@ import { HttpErrorHandlerInterceptorService } from './services/common/http-error
     BrowserAnimationsModule,
     AppRoutingModule,
     AdminModule,
+    UiModule,
     ToastrModule.forRoot(),
     NgxSpinnerModule,
     HttpClientModule,
     JwtModule.forRoot({
-      config : {
-        tokenGetter : ()=> localStorage.getItem("accessToken"),
-        allowedDomains : ["localhost:7156"]
-      }
+        config: {
+            tokenGetter: () => localStorage.getItem("accessToken"),
+            allowedDomains: ["localhost:7156"]
+        }
     }),
-    SocialLoginModule
-  ],
+    SocialLoginModule,
+],
   providers: [
     {provide: "baseUrl", useValue: "https://localhost:7156/api", multi: true},
     {
