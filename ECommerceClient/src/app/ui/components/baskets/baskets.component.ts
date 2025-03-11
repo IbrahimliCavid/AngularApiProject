@@ -42,4 +42,5 @@ export class BasketsComponent extends BaseComponent implements OnInit {
   $("." + id).fadeOut(1000, ()=>{this.hideSpinner(SpinnerType.BallFussion);})
   }
 
+
 }
