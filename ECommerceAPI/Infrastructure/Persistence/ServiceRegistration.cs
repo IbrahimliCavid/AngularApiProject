@@ -53,6 +53,7 @@ namespace Persistence
             service.AddScoped<IExternalAuthentication, AuthService>();
             service.AddScoped<IInternalAuthentication, AuthService>();
             service.AddScoped<IBasketService, BasketService>();
+            service.AddScoped<IOrderService, OrderService>();
         }
     }
 }

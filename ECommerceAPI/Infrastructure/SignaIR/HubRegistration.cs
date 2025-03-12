@@ -12,7 +12,8 @@ namespace SignalR
     {
         public static void MapHubs(this WebApplication app)
         {
-            app.MapHub<ProductHub>("/productsHub");
+            app.MapHub<ProductHub>("/products-hub");
+            app.MapHub<OrderHub>("/orders-hub");
         }
     }
 }
