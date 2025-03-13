@@ -8,6 +8,9 @@ import { OrderService } from '../../../services/common/models/order.service';
 import { CreateOrder } from '../../../contracts/order/create-order';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/ui/custom-toastr.service';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/common/dialog.service';
+import { BasketItemDeleteState, BasketItemRemoveDialogComponent } from 'src/app/dialogs/basket-item-remove-dialog/basket-item-remove-dialog.component';
+import {  ShoppingCompleteDialogComponent, ShoppingCompleteState } from 'src/app/dialogs/shopping-complete-dialog/shopping-complete-dialog.component';
 
 declare var $: any;
 
@@ -22,7 +25,8 @@ export class BasketsComponent extends BaseComponent implements OnInit {
     private basketService: BasketService,
     private orderService: OrderService,
     private toastr: CustomToastrService,
-    private router: Router) {
+    private router: Router,
+    private dialogService : DialogService) {
     super(spinner)
   }
   basketItems: ListBasketItem[];
@@ -45,25 +49,44 @@ export class BasketsComponent extends BaseComponent implements OnInit {
     this.hideSpinner(SpinnerType.BallFussion);
   }
 
-  async removeBasketItem(id: string) {
-    this.showSpinner(SpinnerType.BallFussion);
-    await this.basketService.delete(id);
-    $("." + id).fadeOut(1000, () => { this.hideSpinner(SpinnerType.BallFussion); })
+   removeBasketItem(id: string) {
+    $("#basketModal").modal("hide");
+    this.dialogService.openDialog({
+      coponentType : BasketItemRemoveDialogComponent,
+      data : BasketItemDeleteState.Yes,
+      afterClosed :async ()=>{
+        this.showSpinner(SpinnerType.BallFussion);
+        await this.basketService.delete(id);
+        $("." + id).fadeOut(1000, () => { this.hideSpinner(SpinnerType.BallFussion); });
+        $("#basketModal").modal("show");
+      }
+    })
+   
+
+    
   }
 
   async shoppingComplete() {
-    this.showSpinner(SpinnerType.BallFussion);
-    const order: CreateOrder = new CreateOrder();
-    order.address = "Yashildara";
-    order.description = "New order";
-    await this.orderService.create(order);
-
-    this.hideSpinner(SpinnerType.BallFussion);
-    this.toastr.message("Order created successfully", "Success", {
-      position: ToastrPosition.TopLeft,
-      messageType: ToastrMessageType.Info
-    });
-
-    this.router.navigate(["/"]);
+    $("#basketModal").modal("hide");
+    this.dialogService.openDialog({
+      coponentType : ShoppingCompleteDialogComponent,
+      data : ShoppingCompleteState,
+      afterClosed : async ()=>{
+        this.showSpinner(SpinnerType.BallFussion);
+        const order: CreateOrder = new CreateOrder();
+        order.address = "Yashildara";
+        order.description = "New order";
+        await this.orderService.create(order);
+    
+        this.hideSpinner(SpinnerType.BallFussion);
+        this.toastr.message("Order created successfully", "Success", {
+          position: ToastrPosition.TopLeft,
+          messageType: ToastrMessageType.Info
+        });
+    
+        this.router.navigate(["/"]);
+      }
+    })
+   
   }
 }
