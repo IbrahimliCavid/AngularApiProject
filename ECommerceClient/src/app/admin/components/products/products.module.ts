@@ -10,9 +10,9 @@ import {MatInputModule} from '@angular/material/input';
 import { ListComponent } from './list/list.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { DeleteDirective } from 'src/app/directives/admin/delete.directive';
 import { FileUploadModule } from 'src/app/services/common/file-upload/file-upload.module';
 import { DialogModule } from '@angular/cdk/dialog';
+import { DeleteDirectiveModule } from 'src/app/directives/admin/delete.directive.module';
 
 
 
@@ -22,7 +22,6 @@ import { DialogModule } from '@angular/cdk/dialog';
     ProductsComponent,
     CreateComponent,
     ListComponent,
-    DeleteDirective,
   ],
   imports: [
     CommonModule,
@@ -35,7 +34,8 @@ import { DialogModule } from '@angular/cdk/dialog';
     MatTableModule,
     MatPaginatorModule,
     DialogModule,
-    FileUploadModule
+    FileUploadModule,
+    DeleteDirectiveModule
   ]
 })
 export class ProductsModule { }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Commands.OrderCommands.CreateOrder;
+using Application.Features.Queries.OrderQueries.GetAllOrders;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,14 @@ namespace ECommerceAPI.API.Controllers
         public async Task<IActionResult> CreateOrder(CreateOrderCommandRequest request)
         {
             CreateOrderCommandResponse response =await _mediator.Send(request);
+            return Ok(response);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders([FromQuery]GetAllOrdersQueryRequest request)
+        {
+            GetAllOrdersQueryResponse response = await _mediator.Send(request);
             return Ok(response);
         }
     }

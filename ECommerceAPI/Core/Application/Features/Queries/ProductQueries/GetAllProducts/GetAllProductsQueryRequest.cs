@@ -10,7 +10,6 @@ namespace Application.Features.Queries.ProductQueries.GetAllProducts
 {
     public class GetAllProductsQueryRequest : IRequest<GetAllProductsQueryResponse>
     {
-        //public Paginaton Paginaton { get; set; }
         public int Page { get; set; } = 0;
         public int Size { get; set; } = 5;
     }
